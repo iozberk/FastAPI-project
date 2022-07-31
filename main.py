@@ -4,7 +4,6 @@ from fastapi.params import Body
 from pydantic import BaseModel
 app = FastAPI()
 
-
 class Post(BaseModel):
     title: str
     content: str
@@ -26,7 +25,6 @@ def create_posts(post: Post):
     print(post.published)
     print(post.dict())
     return {"data": post}
-
 
 """ POSTMAN 
 {
