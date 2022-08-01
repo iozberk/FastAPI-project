@@ -2,6 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi.params import Body
 from pydantic import BaseModel
+from random import randrange
 app = FastAPI()
 
 class Post(BaseModel):
@@ -24,23 +25,11 @@ def get_posts():
 
 @app.post("/posts")
 def create_posts(post: Post):
-    print(post.title)
-    print(post.content)
-    print(post.published)
-    print(post.dict())
-    return {"data": post}
-
-""" POSTMAN 
-{
-    "detail": [
-        {
-            "loc": [
-                "body",
-                "content"
-            ],
-            "msg": "field required",
-            "type": "value_error.missing"
-        }
-    ]
-}
-"""
+    post_dict = post.dict()
+    post_dict['id'] = randrange(0,100000)
+    # print(post.title)
+    # print(post.content)
+    # print(post.published)
+    # print(post.dict())
+    post_example.append(post_dict)
+    return {"data": post_dict}
