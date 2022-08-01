@@ -1,4 +1,5 @@
 import re
+from textwrap import indent
 from typing import Optional
 from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
@@ -15,6 +16,11 @@ class Post(BaseModel):
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
+
+def find_index_post(id):
+    for i, p in enumerate(my_posts):
+        if p['id'] == id:
+            return i
 
 def find_post(id):
     for p in my_posts:
@@ -52,7 +58,16 @@ def get_post(id: int, response: Response):
     # return {"post_detail": f"Post id: {id} | and it returned by ID"}
     return {"post_detail": post}
 
+@app.delete("posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id : int):
+    index = find_index_post(id)
 
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= {"Post does NOT exist"})
+
+    my_posts.pop(index)
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 
