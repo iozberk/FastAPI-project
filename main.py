@@ -1,3 +1,4 @@
+import re
 from typing import Optional
 from fastapi import FastAPI
 from fastapi.params import Body
@@ -11,9 +12,14 @@ class Post(BaseModel):
     published: bool = True
     rating : Optional [int] = None
 
-post_example = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
+my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
+
+def find_post(id):
+    for p in my_posts:
+        if p["id"] == id:
+            return p
 
 @app.get("/")
 def root():
@@ -21,7 +27,7 @@ def root():
 
 @app.get("/posts")
 def get_posts():
-    return {"data": post_example}
+    return {"data": my_posts}
 
 @app.post("/posts")
 def create_posts(post: Post):
@@ -31,5 +37,14 @@ def create_posts(post: Post):
     # print(post.content)
     # print(post.published)
     # print(post.dict())
-    post_example.append(post_dict)
+    my_posts.append(post_dict)
     return {"data": post_dict}
+
+@app.get("/posts/{id}")
+def get_post(id: int):
+    
+    post = find_post(id) 
+    print(post)
+    # return {"post_detail": f"Post id: {id} | and it returned by ID"}
+    return {"post_detail": post}
+  
