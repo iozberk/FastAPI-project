@@ -13,6 +13,8 @@ class Post(BaseModel):
     published: bool = True
     rating : Optional [int] = None
 
+# class UpdatePost(BaseModel):    
+
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
@@ -69,6 +71,9 @@ def delete_post(id : int):
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+@app.put("/posts/{id}")
+def update_post(id : int, post: Post):
+    return {"message": "post updated"}
 
 
 
