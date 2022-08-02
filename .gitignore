@@ -20,7 +20,7 @@ venv
 docs.zip
 archive.zip
 zDecarators.ipynb
-
+dbpass.txt
 # vim temporary files
 *~
 .*.sw?

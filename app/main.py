@@ -3,8 +3,11 @@ from textwrap import indent
 from typing import Optional
 from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 from random import randrange
+
 app = FastAPI()
 
 class Post(BaseModel):
@@ -13,7 +16,22 @@ class Post(BaseModel):
     published: bool = True
     rating : Optional [int] = None
 
-# class UpdatePost(BaseModel):    
+try:
+    with open('dbpass.txt') as f:
+        lines = f.readlines()
+    dbpassword = lines[0]
+    f.close()
+    conn = psycopg2.connect(host="localhost", database="fastapi", user="postgres",
+    password=dbpassword, cursor_factory=RealDictCursor)
+    cursor = conn.cursor()
+    print("Database connection was successfully")
+    # cursor.execute("SELECT * FROM posts")
+    # posts = cursor.fetchall()
+    # conn.close()  
+except (Exception) as error:
+    print("Error while connecting to PostgreSQL", error)
+    print(error)
+
 
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
