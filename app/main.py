@@ -81,8 +81,10 @@ def create_posts(post: Post):
  
 @app.get("/posts/{id}")
 def get_post(id: int, response: Response):
-    
-    post = find_post(id) 
+    cursor.execute(""" SELECT * FROM post WHERE id = %s """, (id,))
+    post = cursor.fetchone()
+    # print(post)
+    # post = find_post(id) 
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Post id: {id} was NOT find")
     print(post)
