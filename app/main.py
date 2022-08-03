@@ -5,6 +5,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 from random import randrange
+import os
 
 app = FastAPI()
 
@@ -14,24 +15,33 @@ class Post(BaseModel):
     published: bool = True
     rating : Optional [int] = None
 
-while(True):
-    try:
-        with open('dbpass.txt') as f:
-            lines = f.readlines() 
-        dbpassword = lines[0]
-        f.close()
-        conn = psycopg2.connect(host="localhost", database="fastapi", user="postgres",
-        password=dbpassword, cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print("Database connection was successfully")
-        # cursor.execute("SELECT * FROM posts")
-        # posts = cursor.fetchall()
-        # conn.close()
-        break
-    except (Exception) as error:
-        print("Error while connecting to PostgreSQL", error)
-        print(error)
-        time.sleep(2)
+try:
+    conn = psycopg2.connect(host = "ec2-176-34-215-248.eu-west-1.compute.amazonaws.com",database = "dc02oh10ouo2a2", user= "jjgpbdxckpkhrq", password="6c81246e0c47cfbda0202661616ff7cb659346a5c97b556cde0dbde9616ab79d", sslmode='require')
+    cursor = conn.cursor()
+    print("Database connection was successfully")
+except(Exception) as error:
+    print("Error while connecting to PostgreSQL", error)
+    print(error)
+
+
+# while(True):
+#     try:
+#         with open('dbpass.txt') as f:
+#             lines = f.readlines() 
+#         dbpassword = lines[0]
+#         f.close()
+#         conn = psycopg2.connect(host="localhost", database="fastapi", user="postgres",
+#         password=dbpassword, cursor_factory=RealDictCursor)
+#         cursor = conn.cursor()
+#         print("Database connection was successfully")
+#         # cursor.execute("SELECT * FROM posts")
+#         # posts = cursor.fetchall()
+#         # conn.close()
+#         break
+#     except (Exception) as error:
+#         print("Error while connecting to PostgreSQL", error)
+#         print(error)
+#         time.sleep(2)
 
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
@@ -53,7 +63,10 @@ def root():
 
 @app.get("/posts")
 def get_posts():
-    return {"data": my_posts}
+    cursor.execute(""" SELECT * FROM post """)
+    posts = cursor.fetchall()
+    # print(posts)
+    return {"data": posts}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
