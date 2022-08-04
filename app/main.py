@@ -38,16 +38,15 @@ def root():
 
 @app.get("/sqlalcamey")
 def test_post(db: Session = Depends(get_db)):
-
-    return {"message": "Hello World"}
-
+    
+    post = db.query(models.Post).all()
+    return {"message": post}
 
 @app.get("/posts")
-def get_posts():
-    cursor.execute(""" SELECT * FROM post """)
-    posts = cursor.fetchall()
-    # print(posts)
-    return {"data": posts}
+def get_posts(db: Session = Depends(get_db)):
+    
+    post = db.query(models.Post).all()
+    return {"message": post}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
