@@ -1,0 +1,53 @@
+# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+# user = "jjgpbdxckpkhrq"
+# password = "6c81246e0c47cfbda0202661616ff7cb659346a5c97b556cde0dbde9616ab79d"
+# postgresserver = "ec2-176-34-215-248.eu-west-1.compute.amazonaws.com"
+# db = "dc02oh10ouo2a2"
+
+# user = "postgres"
+# password = "xxxx"
+# postgresserver = "localhost"
+# db = "fastapi"
+
+
+
+# try:
+#     conn = psycopg2.connect(host = "ec2-176-34-215-248.eu-west-1.compute.amazonaws.com",database = "dc02oh10ouo2a2", user= "jjgpbdxckpkhrq", password="6c81246e0c47cfbda0202661616ff7cb659346a5c97b556cde0dbde9616ab79d", sslmode='require')
+#     cursor = conn.cursor()
+#     print("Database connection was successfully")
+# except(Exception) as error:
+#     print("Error while connecting to PostgreSQL", error)
+#     print(error)
+
+
+# while(True):
+#     try:
+#         with open('dbpass.txt') as f:
+#             lines = f.readlines() 
+#         dbpassword = lines[0]
+#         f.close()
+#         conn = psycopg2.connect(host="localhost", database="fastapi", user="postgres",
+#         password=dbpassword, cursor_factory=RealDictCursor)
+#         cursor = conn.cursor()
+#         print("Database connection was successfully")
+#         # cursor.execute("SELECT * FROM posts")
+#         # posts = cursor.fetchall()
+#         # conn.close()
+#         break
+#     except (Exception) as error:
+#         print("Error while connecting to PostgreSQL", error)
+#         print(error)
+#         time.sleep(2)
+
+
+
+
+
+
+
+
+
+
+
+
+
