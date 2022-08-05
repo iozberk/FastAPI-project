@@ -6,20 +6,8 @@ from .database import engine,get_db
 from starlette.responses import FileResponse 
 
 models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
-my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
-                {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
-                {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
-
-def find_index_post(id):
-    for i, p in enumerate(my_posts):
-        if p['id'] == id:
-            return i
-
-def find_post(id):
-    for p in my_posts:
-        if p["id"] == id:
-            return p
 
 @app.get("/")
 def root():
@@ -32,7 +20,7 @@ def get_posts(db: Session = Depends(get_db)):
     return post
 
 @app.post("/posts", response_model=schemas.Post ,status_code=status.HTTP_201_CREATED)
-def create_posts(post: schemas.CreatePost, db: Session = Depends(get_db)):
+def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
@@ -70,13 +58,14 @@ def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_
     db.commit() 
     return post_query.first()
 
-@app.post('/user')
-def create_user():
-    pass
 
-
-
-
+@app.post("/users", status_code=status.HTTP_201_CREATED)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
 
 
 

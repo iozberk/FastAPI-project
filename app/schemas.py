@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class Post(BaseModel):
@@ -7,14 +7,16 @@ class Post(BaseModel):
     published: bool = True
     # rating : Optional [int] = None
 
+class UserCreate(BaseModel):
+    email = str
+    password = str
 
 class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
 
-class CreatePost(PostBase):
-
+class PostCreate(PostBase):
     pass
 
 
@@ -26,6 +28,7 @@ class Post(PostBase):
         orm_mode = True
 
 
+    
 
 
 

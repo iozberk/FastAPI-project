@@ -51,3 +51,16 @@
 
 
 
+# my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
+#                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
+#                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
+
+# def find_index_post(id):
+#     for i, p in enumerate(my_posts):
+#         if p['id'] == id:
+#             return i
+
+# def find_post(id):
+#     for p in my_posts:
+#         if p["id"] == id:
+#             return p
