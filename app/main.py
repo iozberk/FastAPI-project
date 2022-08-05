@@ -1,20 +1,11 @@
 from fastapi import FastAPI, Response, status, HTTPException, Depends
 from pydantic import BaseModel
-from .import models
+from .import models, schemas
 from sqlalchemy.orm import Session
 from .database import engine,get_db
 
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-    # rating : Optional [int] = None
-
-
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
@@ -40,7 +31,7 @@ def get_posts(db: Session = Depends(get_db)):
     return {"message": post}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post, db: Session = Depends(get_db)):
+def create_posts(post: schemas.CreatePost, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
@@ -68,7 +59,7 @@ def delete_post(id : int, db: Session = Depends(get_db)):
 
 
 @app.put("/posts/{id}")
-def update_post(id : int, updated_post: Post, db: Session = Depends(get_db)):
+def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_db)):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
 
