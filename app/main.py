@@ -1,8 +1,4 @@
-from turtle import title
-from typing import Optional
 from fastapi import FastAPI, Response, status, HTTPException, Depends
-import psycopg2
-from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 from .import models
 from sqlalchemy.orm import Session
