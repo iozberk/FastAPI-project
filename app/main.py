@@ -69,3 +69,25 @@ def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_
     post_query.update(updated_post.dict(),synchronize_session=False)   
     db.commit() 
     return post_query.first()
+
+@app.post('/user')
+def create_user():
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
