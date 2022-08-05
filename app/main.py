@@ -70,10 +70,14 @@ def get_posts():
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
-    post_dict = post.dict()
-    post_dict['id'] = randrange(0,100000)
-    my_posts.append(post_dict)
-    return {"data": post_dict}
+    # post_dict = post.dict()
+    # post_dict['id'] = randrange(0,100000)
+    # my_posts.append(post_dict)
+
+    cursor.execute(""" INSERT INTO post (title, content, published) VALUES  """)
+
+
+    return {"data": "Post Created"}
  
 @app.get("/posts/{id}")
 def get_post(id: int, response: Response):
