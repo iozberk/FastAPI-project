@@ -1,23 +1,12 @@
-from typing import Optional
 from fastapi import FastAPI, Response, status, HTTPException, Depends
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from pydantic import BaseModel
-from .import models
+from typing import List
+from .import models, schemas
 from sqlalchemy.orm import Session
 from .database import engine,get_db
+from starlette.responses import FileResponse 
 
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-    rating : Optional [int] = None
-
-
 my_posts = [{"title" : "First Post Title", "content" : "First Post Content", "id": 1},
                 {"title" : "Second Post Title", "content" : "Second Post Content", "id": 2},
                 {"title" : "Last Post Title", "content" : "Last Post Content", "id": 3}]
@@ -34,59 +23,71 @@ def find_post(id):
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return FileResponse('index.html')
 
-@app.get("/sqlalcamey")
-def test_post(db: Session = Depends(get_db)):
-    
-    post = db.query(models.Post).all()
-    return {"message": post}
-
-@app.get("/posts")
+@app.get("/posts", response_model=List[schemas.Post])
 def get_posts(db: Session = Depends(get_db)):
     
     post = db.query(models.Post).all()
-    return {"message": post}
+    return post
 
-@app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post):
-    # post_dict = post.dict()
-    # post_dict['id'] = randrange(0,100000)
-    # my_posts.append(post_dict)
-    new_post = cursor.execute(""" INSERT INTO post (title, content, published) VALUES (%s, %s, %s) RETURNING *  """, (post.title, post.content, post.published))
-    new_post = cursor.fetchone() 
-    conn.commit()
-
-    return {"data": new_post} 
+@app.post("/posts", response_model=schemas.Post ,status_code=status.HTTP_201_CREATED)
+def create_posts(post: schemas.CreatePost, db: Session = Depends(get_db)):
+    new_post = models.Post(**post.dict())
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return new_post
  
-@app.get("/posts/{id}")
-def get_post(id: int, response: Response):
-    cursor.execute(""" SELECT * FROM post WHERE id = %s """, (id,))
-    post = cursor.fetchone()
-    # print(post)
-    # post = find_post(id) 
+@app.get("/posts/{id}", response_model=schemas.Post)
+def get_post(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Post id: {id} was NOT find")
     print(post)
-    return {"post_detail": post}
+    return post
 
-@app.delete("posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id : int):
-    index = find_index_post(id)
 
-    if index == None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= {"Post does NOT exist"})
-
-    my_posts.pop(index)
-
+@app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id : int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == id)
+    if post == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f"Post with id: {id} does NOT exist")
+    post.delete(synchronize_session=False)   
+    db.commit() 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-@app.put("/posts/{id}")
-def update_post(id : int, post: Post):
-    index = find_index_post(id)
-    if index == None:
+
+
+@app.put("/posts/{id}", response_model=schemas.Post)
+def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_db)):
+    post_query = db.query(models.Post).filter(models.Post.id == id)
+    post = post_query.first()
+
+    if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= {"Post does NOT exist"})
-    post_dict = post.dict()
-    post_dict['id'] = id
-    my_posts[index] = post_dict
-    return {"data": post_dict}
+    post_query.update(updated_post.dict(),synchronize_session=False)   
+    db.commit() 
+    return post_query.first()
+
+@app.post('/user')
+def create_user():
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
