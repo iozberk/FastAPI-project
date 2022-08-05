@@ -14,13 +14,16 @@ class PostBase(BaseModel):
     published: bool = True
 
 class CreatePost(PostBase):
-    
+
     pass
 
 
 # class UpdatePost(PostBase):
 #     pass
 
+class Post(PostBase):
+    class Config:
+        orm_mode = True
 
 
 
