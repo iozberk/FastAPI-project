@@ -29,8 +29,6 @@ class UserBase(BaseModel):
     password1: str
     password2: str
 
-    
-
 class UserCreate(UserBase):
     @validator('password2')
     def passwords_match(cls, v, values, **kwargs):
@@ -40,11 +38,11 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    # is_active: bool
-    # created_at: str
     class Config:
         orm_mode = True
 
-
-
-
+class UserOut(BaseModel):
+    id: int
+    email : EmailStr
+    class Config:
+        orm_mode = True

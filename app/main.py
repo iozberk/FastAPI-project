@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Response, status, HTTPException, Depends
 from typing import List
-from .import models, schemas
+from .import models, schemas, utils
 from sqlalchemy.orm import Session
 from .database import engine,get_db
 from starlette.responses import FileResponse 
-
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -59,8 +58,13 @@ def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_
     return post_query.first()
 
 
-@app.post("/users", status_code=status.HTTP_201_CREATED)
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    hashed_password1 = utils.hash(user.password1)
+    hashed_password2 = utils.hash(user.password2)
+    user.password1 = hashed_password1
+    user.password2 = hashed_password2
+
     new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()
