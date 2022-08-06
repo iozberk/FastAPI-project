@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ValidationError, validator
+from pydantic import BaseModel, EmailStr, validator
 
 
 class Post(BaseModel):
@@ -15,11 +15,6 @@ class PostBase(BaseModel):
 
 class PostCreate(PostBase):
     pass
-
-
-# class UpdatePost(PostBase):
-#     pass
-
 class Post(PostBase):
     class Config:
         orm_mode = True
@@ -35,6 +30,7 @@ class UserCreate(UserBase):
         if 'password1' in values and v != values['password1']:
             raise ValueError('passwords do not match')
         return v
+    
 
 class User(UserBase):
     id: int
