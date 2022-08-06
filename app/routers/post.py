@@ -4,16 +4,19 @@ from .. import models, schemas
 from ..database import get_db
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/posts",
+    tags=["posts"]
+)
 
 
-@router.get("/posts", response_model=List[schemas.Post])
+@router.get("/", response_model=List[schemas.Post])
 def get_posts(db: Session = Depends(get_db)):
     
     post = db.query(models.Post).all()
     return post
 
-@router.post("/posts", response_model=schemas.Post ,status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=schemas.Post ,status_code=status.HTTP_201_CREATED)
 def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
@@ -21,7 +24,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     db.refresh(new_post)
     return new_post
  
-@router.get("/posts/{id}", response_model=schemas.Post)
+@router.get("/{id}", response_model=schemas.Post)
 def get_post(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
@@ -30,7 +33,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
     return post
 
 
-@router.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id : int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id)
     if post == None:
@@ -41,7 +44,7 @@ def delete_post(id : int, db: Session = Depends(get_db)):
 
 
 
-@router.put("/posts/{id}", response_model=schemas.Post)
+@router.put("/{id}", response_model=schemas.Post)
 def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_db)):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
