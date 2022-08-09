@@ -1,11 +1,6 @@
-from pydantic import BaseModel
-
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-    # rating : Optional [int] = None
+from typing import Optional
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
 
 class PostBase(BaseModel):
@@ -13,17 +8,57 @@ class PostBase(BaseModel):
     content: str
     published: bool = True
 
-class CreatePost(PostBase):
 
+class PostCreate(PostBase):
     pass
 
 
-# class UpdatePost(PostBase):
-#     pass
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
 
-class Post(PostBase):
     class Config:
         orm_mode = True
+
+
+class Post(PostBase):
+    id: int
+    created_at: datetime
+    owner: int
+    class Config:
+        orm_mode = True
+
+
+class PostOut(BaseModel):
+    Post: Post
+    votes: int
+
+    class Config:
+        orm_mode = True
+
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserLogin(BaseModel):
+    email: EmailStr 
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
+
+
+
+
+
+
 
 
 
