@@ -6,7 +6,7 @@ from .. import models, utils, oauth2, schemas
 
 
 router = APIRouter(
-    tags=["Authentication"]
+    tags=["Authentication - Login"]
 )
 
 @router.post("/login", response_model=schemas.Token)
