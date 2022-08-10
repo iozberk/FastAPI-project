@@ -10,7 +10,7 @@
 # db = "fastapi"
 
 
-
+"postgresql://postgres:password@localhost/fastapi"
 # try:
 #     conn = psycopg2.connect(host = "ec2-176-34-215-248.eu-west-1.compute.amazonaws.com",database = "dc02oh10ouo2a2", user= "jjgpbdxckpkhrq", password="6c81246e0c47cfbda0202661616ff7cb659346a5c97b556cde0dbde9616ab79d", sslmode='require')
 #     cursor = conn.cursor()
