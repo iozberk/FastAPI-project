@@ -25,7 +25,7 @@ class UserOut(BaseModel):
 class Post(PostBase):
     id: int
     created_at: datetime
-    owner: int
+    owner_id: int
     class Config:
         orm_mode = True
 

@@ -51,8 +51,9 @@ def delete_post(id : int, db: Session = Depends(get_db), current_user : int = De
 
 
 
-@router.put("/{id}", response_model=schemas.Post)
+@router.put("/{id}", response_model=schemas.PostCreate)
 def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user)):
+    
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
 
@@ -60,8 +61,8 @@ def update_post(id : int, updated_post: schemas.Post, db: Session = Depends(get_
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= {"Post does NOT exist"})
     
     if post.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not Auth to perform requested action")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="The user is not authorized")
     
-    post_query.update(updated_post.dict(),synchronize_session=False)   
+    post_query.update(updated_post.dict(), synchronize_session=False)   
     db.commit() 
     return post_query.first()
