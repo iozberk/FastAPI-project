@@ -3,18 +3,7 @@ from .import models
 from .database import engine
 from starlette.responses import FileResponse 
 from .routers import post, user, auth
-from pydantic import BaseSettings
-
-from app import database
-
-
-class Settings(BaseSettings):
-    pass
-    database_password : str = "localhost"
-    database_username : str = "postgres"
-    secret_key : str = "secret"
-
-settings = Settings()    
+from .config import settings 
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
