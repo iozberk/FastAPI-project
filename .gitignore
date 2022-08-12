@@ -18,6 +18,7 @@ env
 .env
 docs_build
 venv
+venv/
 docs.zip
 archive.zip
 zDecarators.ipynb
