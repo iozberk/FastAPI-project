@@ -6,23 +6,12 @@ with open('dburl.txt') as f:
     lines = f.readlines() 
     SQLALCHEMY_DATABASE_URL = lines[0]
     f.close()
-
-# with open('dbpass.txt') as f:
-#     lines = f.readlines() 
-#     pasw = lines[0]
-#     f.close()
-
 # SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:{pasw}@localhost/fastapi"
-
-# from .config import settings
-
 # SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}'
-
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
 
 # Dependency
 def get_db():

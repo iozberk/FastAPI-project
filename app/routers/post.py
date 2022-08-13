@@ -8,9 +8,7 @@ from ..database import get_db
 
 router = APIRouter(
     prefix="/posts",
-    tags=["posts"]
-)
-
+    tags=["posts"])
 
 @router.get("/", response_model=List[schemas.PostOut])
 def get_posts(db: Session = Depends(get_db), current_user : int = Depends(oauth2.get_current_user),
