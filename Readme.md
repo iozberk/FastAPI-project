@@ -25,3 +25,7 @@ PostgreSQL Posts Table
 PostgreSQL Votes Table
 
 ![image](https://user-images.githubusercontent.com/61587949/184653995-594d88c6-ed3e-4791-91ea-bc2a5ccab61e.png)
+
+Generating Fake Data with Python - Using Faker to create a fake dataset
+
+![image](https://user-images.githubusercontent.com/61587949/184716058-1badd65d-9d2c-4bbe-a24e-f38af1cfec68.png)
