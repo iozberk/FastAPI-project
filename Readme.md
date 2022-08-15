@@ -14,3 +14,14 @@ Used Tech
  
  
  
+PostgreSQL User Table
+
+![image](https://user-images.githubusercontent.com/61587949/184621928-86bab0c9-e06e-466d-bcbf-05204d324cb5.png)
+
+PostgreSQL Posts Table
+
+![image](https://user-images.githubusercontent.com/61587949/184622011-c3d2ad86-91fc-4933-a447-4410856d383a.png)
+
+PostgreSQL Votes Table
+
+![image](https://user-images.githubusercontent.com/61587949/184653995-594d88c6-ed3e-4791-91ea-bc2a5ccab61e.png)
