@@ -1,7 +1,7 @@
 from app.calculation import add, subtract, multiply, divide
 from pytest import mark
 
-# Pytest will run this test first because it is marked with the @mark.first decorator
+# Pytest will run this test first because it is marked with the @mark.parametrize decorator
 @mark.parametrize("num1, num2, result", [
     (3, 2, 5),
     (7, 1, 8),
