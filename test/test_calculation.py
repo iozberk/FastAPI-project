@@ -1,10 +1,20 @@
 from app.calculation import add, subtract, multiply, divide
+from pytest import mark
 
-def test_add():
-    assert add(1, 1) == 2
-    assert add(1, 2) == 3
-    assert add(2, 2) == 4
+# Pytest will run this test first because it is marked with the @mark.first decorator
+@mark.parametrize("num1, num2, result", [
+    (3, 2, 5),
+    (7, 1, 8),
+    (12, 4, 16),
+    (5, 5, 10)])
+def test_add(num1, num2, result):
+    assert add(num1, num2) == result
 
+
+# def test_add(num1, num2, result):
+#     assert add(1, 1) == 2
+#     assert add(1, 2) == 3
+#     assert add(2, 2) == 4
 
 def test_subtract():
     assert subtract(9, 4) == 5
