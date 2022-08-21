@@ -13,8 +13,7 @@ Used Tech
  
  <a href="https://www.fastapi.tiangolo.com" target="_blank" rel="noreferrer"> <img src="https://user-images.githubusercontent.com/61587949/184605783-65480d71-022e-4842-8ae3-ac8b83aea886.png" alt="fastapi" width="70" height="40"/> </a>
  
- ![image](https://user-images.githubusercontent.com/61587949/185796384-60274411-1c2a-4037-a53c-9ad33cbffd95.png)
-
+<a href="https://docs.pytest.org" target="_blank" rel="noreferrer"> <img src="https://user-images.githubusercontent.com/61587949/185796384-60274411-1c2a-4037-a53c-9ad33cbffd95.png" alt="pytest" width="70" height="40"/> </a>
  
 PostgreSQL User Table
 
