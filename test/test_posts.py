@@ -31,7 +31,13 @@ def test_get_one_post_not_exist(authorized_client, test_post):
     assert res.status_code == 404
 
 
-
+def test_get_one_post(authorized_client, test_post):
+    res = authorized_client.get(f"/posts/{test_post[0].id}")
+    post = schemas.PostOut(**res.json())
+    assert post.Post.id == test_post[0].id
+    assert post.Post.title == test_post[0].title
+    assert post.Post.content == test_post[0].content
+    assert res.status_code == 200
 
 
 
