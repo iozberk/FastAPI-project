@@ -65,6 +65,11 @@ def test_create_post_default_published_true(authorized_client, test_user, test_p
     assert res.status_code == 201
 
 
+def test_unauthorized_user_create_post(client, test_user ,test_post):
+    post_data = {"title": "title", "content": "content", "published": True}
+    res = client.post("/posts/", json=post_data)
+    assert res.status_code == 401
+
 
 
 
