@@ -79,6 +79,11 @@ def test_delete_post_successful(authorized_client, test_user ,test_post):
     assert res.status_code == 204
 
 
+def test_delete_post_not_exist(authorized_client, test_user ,test_post):
+    res = authorized_client.delete("/posts/9999999999999")
+    assert res.status_code == 404
+
+
 
 
 
