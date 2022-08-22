@@ -20,5 +20,13 @@ def test_vote_twice_post(authorized_client, test_post,test_vote):
     assert res.status_code == 409
     
 
+def test_vote_delete(authorized_client, test_post,test_vote):
+    res = authorized_client.post("/vote/", json={"post_id": test_post[3].id, "dir": 0})
+    assert res.status_code == 201
+    assert res.json()['message'] == "successfully deleted vote"
+
+
+
+
 
 
