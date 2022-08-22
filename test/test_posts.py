@@ -39,7 +39,13 @@ def test_get_one_post(authorized_client, test_post):
     assert post.Post.content == test_post[0].content
     assert res.status_code == 200
 
-
+def test_create_post(authorized_client, test_user):
+    post_data = {"title": "Test Post X", "content": "This is a test post X"}
+    res = authorized_client.post("/posts/", json=post_data)
+    post = schemas.PostCreate(**res.json())
+    assert post.title == post_data['title']
+    assert post.content == post_data['content']
+    assert res.status_code == 201
 
 
 
