@@ -55,6 +55,21 @@ def test_create_post(authorized_client, test_user, title, content, published):
     assert created_post.owner_id == test_user['id']
     assert res.status_code == 201
 
+def test_create_post_default_published_true(authorized_client, test_user, test_post):
+    post_data = {"title": "title", "content": "content", "published": True}
+    res = authorized_client.post("/posts/", json=post_data)
+    created_post = schemas.Post(**res.json())
+    assert created_post.title == 'title'
+    assert created_post.content == 'content'
+    assert created_post.published == True
+    assert res.status_code == 201
+
+
+
+
+
+
+
 
 
 
