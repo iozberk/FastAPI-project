@@ -1,3 +1,4 @@
+from calendar import c
 from typing import List
 from app import schemas
 import pytest
@@ -47,11 +48,12 @@ def test_get_one_post(authorized_client, test_post):
 def test_create_post(authorized_client, test_user, title, content, published):
     post_data = {"title": title, "content": content, "published": published}
     res = authorized_client.post("/posts/", json=post_data)
-    post = schemas.Post(**res.json())
-    assert post.title == post_data['title']
-    assert post.content == post_data['content']
+    created_post = schemas.Post(**res.json())
+    assert created_post.title == post_data['title']
+    assert created_post.content == post_data['content']
+    assert created_post.published == post_data['published']
+    assert created_post.owner_id == test_user['id']
     assert res.status_code == 201
-    assert post.published == post_data['published']
 
 
 
