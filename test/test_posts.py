@@ -26,3 +26,15 @@ def test_unauthorized_user_get_one_post(authorized_client, test_post):
     assert post.Post.title == test_post[0].title
     assert res.status_code == 200
 
+def test_get_one_post_not_exist(authorized_client, test_post):
+    res = authorized_client.get(f"/posts/999")
+    assert res.status_code == 404
+
+
+
+
+
+
+
+
+
