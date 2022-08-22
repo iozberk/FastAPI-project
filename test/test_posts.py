@@ -18,3 +18,11 @@ def test_unauthorized_user_get_all_posts(client, test_post):
     res = client.get("/posts/")
     assert res.status_code == 401
 
+
+def test_unauthorized_user_get_one_post(authorized_client, test_post):
+    res = authorized_client.get(f"/posts/{test_post[0].id}")
+    post = schemas.PostOut(**res.json())
+    assert post.Post.id == test_post[0].id
+    assert post.Post.title == test_post[0].title
+    assert res.status_code == 200
+
