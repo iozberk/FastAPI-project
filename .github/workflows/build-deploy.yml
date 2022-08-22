@@ -3,7 +3,16 @@ name: Build and Deploy Code
 on: [push, pull_request]
 
 jobs:
-  build:
+  job1:
+    env:
+      DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+      DATABASE_PORT: ${{DATABASE_PORT}}
+      DATABASE_PASSWORD: ${{DATABASE_PASSWORD}}
+      DATABASE_NAME: ${{DATABASE_NAME}}
+      DATABASE_USERNAME: ${{DATABASE_USERNAME}}
+      SECRET_KEY: ${{SECRET_KEY}}
+      ALGORITHM: ${{ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ACCESS_TOKEN_EXPIRE_MINUTES}}
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
@@ -16,4 +25,3 @@ jobs:
         run: python -m pip install --upgrade pip
       - name: install all dependencies
         run: pip install -r requirements.txt
-
