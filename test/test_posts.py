@@ -107,4 +107,3 @@ def test_unauthorized_user_update_post(client, test_user, test_post):
     res = client.put(f"/posts/{test_post[0].id}", json=post_data)
     assert res.status_code == 401
 
-
