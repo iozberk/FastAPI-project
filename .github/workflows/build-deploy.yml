@@ -1,7 +1,7 @@
 name: Build and Deploy Code
 on: [push, pull_request]
 jobs:
-  job1:
+  build:
     environment:
       name: testing
     env:
@@ -18,10 +18,10 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_HOST: ${{secrets.DATABASE_HOSTNAME}}
           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
-          POSTGRES_DB: ${{secrets.DATABASE_NAME}}
-          POSTGRES_PORT: ${{secrets.DATABASE_PORT}}
+          POSTGRES_DB: ${{secrets.DATABASE_NAME}}_test
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
