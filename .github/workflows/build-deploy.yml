@@ -1,10 +1,8 @@
 name: Build and Deploy Code
-
 on: [push, pull_request]
-
 jobs:
   job1:
-    environment: 
+    environment:
       name: testing
     env:
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
@@ -15,7 +13,7 @@ jobs:
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       ALGORITHM: ${{secrets.ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
-    
+
     services:
       postgres:
         image: postgres
@@ -29,7 +27,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
@@ -45,4 +42,4 @@ jobs:
       - name: test with pytest
         run: |
           pip install pytest
-          pytest  
+          pytest
