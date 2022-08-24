@@ -14,7 +14,7 @@ def test_get_all_posts(authorized_client, test_post):
     # assert len(res.json()) == len(test_post)
     assert post_list[0].Post.id == test_post[0].id
     assert post_list[0].Post.title == test_post[0].title
-    assert res.status_code == 201
+    assert res.status_code == 200
 
 def test_unauthorized_user_get_all_posts(client, test_post):
     res = client.get("/posts/")
