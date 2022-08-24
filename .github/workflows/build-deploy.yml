@@ -21,7 +21,7 @@ jobs:
           POSTGRES_HOST: ${{secrets.DATABASE_HOSTNAME}}
           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
           POSTGRES_DB: ${{secrets.DATABASE_NAME}}
-          POSTGRES_PORT: 5432
+          POSTGRES_PORT: ${{secrets.DATABASE_PORT}}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
