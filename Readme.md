@@ -30,3 +30,12 @@ PostgreSQL Votes Table
 Generating Fake Data with Python - Using Faker to create a fake dataset
 
 ![image](https://user-images.githubusercontent.com/61587949/184716058-1badd65d-9d2c-4bbe-a24e-f38af1cfec68.png)
+
+
+Github Action
+
+![image](https://user-images.githubusercontent.com/61587949/186518698-057d9d54-3466-41f8-a599-6666125164d0.png)
+
+![image](https://user-images.githubusercontent.com/61587949/186518787-b8f968ea-a8d4-4e78-99c4-f90aa8e199de.png)
+
+
