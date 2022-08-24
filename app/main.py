@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-# from .import models
-# from .database import engine
+from .import models
+from .database import engine
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse 
 from .routers import post, user, auth, vote
@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 @app.get("/")
 def root():
     return FileResponse('index.html')
