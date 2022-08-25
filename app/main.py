@@ -4,6 +4,7 @@ from .database import engine
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse 
 from .routers import post, user, auth, vote
+
 app = FastAPI()
 
 origins =["*"]
